@@ -20,5 +20,21 @@ exports.show = (req, res) => {
 }
 
 exports.store = (req, res) => {
-    res.json()
-}
+    const { title, description, is_done = false } = req.body;
+    if(title && description) {
+        db.connection.query(
+            `INSERT INTO tasks ( title, description, is_done )
+            VALUES ('${title}', '${description}', ${is_done})`,
+            (err, row) => {
+                if (err) {
+                    res
+                        .status(500)
+                        .json({ message: "Error al insertar los datos: " + err });
+                    throw err;
+                    }
+                    console.log(row);
+                    res.json({ message: `tarea creada con id ${row.insertId}` });                    
+            }
+        );
+    }
+};
