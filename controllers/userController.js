@@ -1,10 +1,10 @@
 const db = require("../config/mysql");
 
 exports.index = (req, res) => {
-  tasks = [];
+  users = [];
   db.connection.query("SELECT * FROM users", (err, rows) => {
     if (err) throw err;
-    res.json({ tasks: rows });
+    res.json({ users: rows });
   });
 };
 
@@ -27,28 +27,27 @@ exports.show = (req, res) => {
 };
 
 exports.store = (req, res) => {
-  const { name, password, active } = req.body;
-  let sql = `INSERT INTO users (title,description,isDone) VALUES (?,?,?)`;
+//  const { email, password, admin } = req.body;
+  let sql = `INSERT INTO users (email, password, admin) VALUES (?,?,?)`;
   db.connection.query(
     sql,
-    [req.body.name, req.body.password, req.body.active],
+    [req.body.email, req.body.password, req.body.admin],
     (err, rows) => {
       if (err) throw err;
-      res.status(200).json("task insertion success");
+      res.status(200).json("user insertion success");
     }
   );
 };
 
 exports.update = (req, res) => {
-  const { name, password, active } = req.body;
-  let sql = `UPDATE users SET name = ?,password=?,active=? WHERE id=?`;
+  let sql = `UPDATE users SET email = ?,password=?,admin=?, WHERE id=?`;
   db.connection.query(
     sql,
     [req.body.name, req.body.password, req.body.active, req.params.id],
     (err, rows) => {
       if (err) throw err;
 
-      res.status(200).json(`se modifico la tarea id numero : ${req.params.id}`);
+      res.status(200).json(`se modifico el usuario id numero : ${req.params.id}`);
     }
   );
 };
@@ -59,7 +58,7 @@ exports.delete = (req, res) => {
     [req.params.id],
     (err, rows) => {
       if (err) throw err;
-      res.json(`se borro correctamente la tarea ${req.params.id}`);
+      res.json(`se borro correctamente el usuario ${req.params.id}`);
     }
   );
 };
