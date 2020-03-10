@@ -6,9 +6,10 @@ router.get('/', tasksController.index)
 
 router.get('/:id', tasksController.show)
 
- router.post('/', tasksController.store)
+router.post('/', tasksController.store)
 
-// router.put('/:id', tasksController.upgrade )
-// router.delete('/:id', tasksController.delete )
+router.put('/:id', tasksController.update)
+
+router.delete('/:id', tasksController.delete)
 
 module.exports = router
